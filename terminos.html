@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Términos de Uso — WariqueMarket</title>
+<link rel="icon" href="logo.png">
+</head>
+<body>
+
+<style>
+  /* Layout: single-column document, max 700px, with a branded header */
+  :root {
+    --bg: #f7faf8;
+    --surface: #ffffff;
+    --text: #1a2e22;
+    --muted: #5a7366;
+    --accent: #16a869;
+    --accent-dim: #e8f5ee;
+    --border: #d4e8dc;
+    --display: 'Playfair Display', Georgia, serif;
+    --body: 'Inter', system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111c15;
+      --surface: #1a2e22;
+      --text: #e8f5ee;
+      --muted: #8fb8a0;
+      --accent: #22d47f;
+      --accent-dim: #1a3525;
+      --border: #2a4a35;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111c15;
+    --surface: #1a2e22;
+    --text: #e8f5ee;
+    --muted: #8fb8a0;
+    --accent: #22d47f;
+    --accent-dim: #1a3525;
+    --border: #2a4a35;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+
+  body {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    padding-inline: 20px;
+  }
+
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-block: 48px;
+  }
+
+  header {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-img { width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 1px solid var(--border); object-fit: contain; }
+
+  .app-name {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text);
+    text-wrap: balance;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .meta {
+    font-size: 0.875rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  section {
+    margin-bottom: 36px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-wrap: balance;
+  }
+
+  p { margin-bottom: 12px; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  ul {
+    padding-left: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  li { color: var(--text); }
+
+  .highlight {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+  }
+
+  .highlight p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: underline; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 48px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 480px) {
+    body { padding-inline: 16px; }
+    .page { padding-block: 32px; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap">
+
+<div class="page">
+  <header>
+    <div class="logo-row">
+      <img class="logo-img" src="logo.png" alt="" width="48" height="48">
+      <a href="index.html" style="text-decoration:none;color:inherit"><span class="app-name">WariqueMarket</span></a>
+    </div>
+    <h1>Términos y Condiciones de Uso</h1>
+    <p class="meta">Última actualización: 14 de octubre de 2026</p>
+  </header>
+
+  <section>
+    <div class="highlight">
+      <p>Al crear una cuenta o usar WariqueMarket aceptas estos términos. Están escritos en lenguaje simple: si algo no queda claro, escríbenos a <strong>wariquemarket@gmail.com</strong>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>1. Qué es WariqueMarket</h2>
+    <p>WariqueMarket es una aplicación que conecta a vecinos con bodegas, mercados y tiendas cercanas en Perú. Mostramos la información que publican los propios negocios: ubicación, horario, productos, precios y ofertas.</p>
+    <p><strong>WariqueMarket no vende productos ni cobra por ellos.</strong> Los pedidos por WhatsApp, los pagos (efectivo, Yape, Plin u otros) y las entregas se acuerdan directamente entre el cliente y el local. No somos parte de esa compra.</p>
+  </section>
+
+  <section>
+    <h2>2. Tu cuenta</h2>
+    <ul>
+      <li>Debes tener al menos 13 años. Para registrar un negocio debes ser mayor de edad o contar con autorización de su responsable.</li>
+      <li>Usa un correo real y mantén tu contraseña en secreto. Eres responsable de lo que se haga desde tu cuenta.</li>
+      <li>Puedes eliminar tu cuenta cuando quieras desde <strong>Perfil → Privacidad → Eliminar mi cuenta</strong>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Si tienes un negocio</h2>
+    <ul>
+      <li>Solo puedes registrar un local que existe y que administras. Revisamos cada local nuevo antes de publicarlo.</li>
+      <li>Eres responsable de que tu información sea correcta: dirección, horario, teléfono, <strong>precios</strong> y ofertas. Los precios publicados son referenciales; si cambian, actualízalos.</li>
+      <li>Las fotos deben ser de tu local o tus productos y no pueden infringir derechos de otras personas.</li>
+      <li>Podemos revisar los cambios que hagas en un local ya publicado (nombre, fotos, descripción) y ocultarlo si no cumple estas reglas.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Planes Básico y Pro</h2>
+    <ul>
+      <li><strong>Básico:</strong> gratis. Incluye aparecer en el mapa y las búsquedas, foto de portada, hasta 15 productos, pedidos por WhatsApp, respuestas a reseñas y el número de visitas.</li>
+      <li><strong>Pro:</strong> S/ 29 al mes. Suma mejor posición en tu zona, ofertas del día con aviso a tus seguidores, galería de fotos, productos ilimitados, estadísticas completas e insignia PRO.</li>
+      <li><strong>Prueba gratis:</strong> cada local puede activar el Pro gratis por 3 meses una sola vez. No pedimos tarjeta para la prueba.</li>
+      <li>Te avisaremos antes de que termine tu prueba. Si no pagas, tu local vuelve al plan Básico automáticamente: no se borra nada, pero las funciones Pro dejan de estar disponibles (las ofertas y la galería dejan de mostrarse y no puedes agregar más de 15 productos).</li>
+      <li>Puedes dejar el Pro cuando quieras; se mantiene hasta el final del mes ya pagado. No hacemos reembolsos por meses ya iniciados, salvo error nuestro.</li>
+      <li>Si cambiamos el precio, te avisaremos con al menos 30 días de anticipación.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Reseñas</h2>
+    <ul>
+      <li>Reseña solo locales en los que hayas comprado o que conozcas. Una reseña por persona y por local; puedes editarla o borrarla.</li>
+      <li>No se permiten insultos, discriminación, datos personales de otros, publicidad ni reseñas falsas. Los dueños no pueden reseñar su propio local.</li>
+      <li>Cualquier usuario puede reportar una reseña o un local. Podemos borrar las reseñas que no cumplan estas reglas.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. Lo que no está permitido</h2>
+    <ul>
+      <li>Publicar locales falsos, suplantar a otro negocio o persona.</li>
+      <li>Ofrecer productos ilegales, robados, falsificados o que requieran licencia que no tienes (por ejemplo, medicamentos con receta).</li>
+      <li>Intentar acceder a cuentas ajenas, saltarse los límites de los planes o dañar el funcionamiento de la app.</li>
+    </ul>
+    <p>Si alguien incumple estas reglas podemos ocultar su local, borrar su contenido o cerrar su cuenta.</p>
+  </section>
+
+  <section>
+    <h2>7. Responsabilidad</h2>
+    <p>Hacemos lo posible para que la información sea correcta y la app funcione siempre, pero no podemos garantizar que un local esté abierto, que un precio esté actualizado ni que un producto esté disponible. Ante cualquier duda, confirma con el local por teléfono o WhatsApp.</p>
+    <p>WariqueMarket no responde por la calidad de los productos, las entregas ni los pagos acordados entre clientes y locales.</p>
+  </section>
+
+  <section>
+    <h2>8. Tus datos</h2>
+    <p>Cómo usamos tu información está explicado en la <a href="privacidad.html">Política de Privacidad</a>.</p>
+  </section>
+
+  <section>
+    <h2>9. Cambios a estos términos</h2>
+    <p>Si cambiamos estos términos, actualizaremos la fecha de arriba y avisaremos en la app de los cambios importantes. Si sigues usando la app después del aviso, aceptas la nueva versión.</p>
+  </section>
+
+  <section>
+    <h2>10. Ley aplicable y contacto</h2>
+    <p>Estos términos se rigen por las leyes de la República del Perú, incluido el Código de Protección y Defensa del Consumidor (Ley 29571).</p>
+    <p><strong>Correo:</strong> wariquemarket@gmail.com</p>
+  </section>
+
+  <footer>
+    <p>© 2026 WariqueMarket · <a href="privacidad.html">Política de privacidad</a></p>
+  </footer>
+</div>
+
+</body>
+</html>
