@@ -56,6 +56,9 @@
   .row { display: flex; gap: 8px; font-size: 0.9rem; color: var(--muted); }
   .row b { color: var(--text); font-weight: 500; }
   .desc { font-size: 0.9rem; }
+  .story { font-size: 0.95rem; line-height: 1.65; white-space: pre-line; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .gallery img { width: 100%; max-width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; display: block; background: var(--accent-dim); }
   h2 { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
   .products { list-style: none; padding: 0; display: flex; flex-direction: column; }
   .products li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
@@ -126,7 +129,7 @@
 
   if (!id) showState('Este link no es válido', 'Pide que te lo compartan de nuevo.');
   else Promise.all([
-    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,open_time,close_time,open_days,latitude,longitude,rating`),
+    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,gallery,open_time,close_time,open_days,latitude,longitude,rating`),
     api(`products?store_id=eq.${id}&select=*&order=name&limit=500`).catch(() => []),
   ]).then(([stores, products]) => {
     const s = stores[0];
@@ -148,7 +151,15 @@
     [['📍', s.address], ['🕐', schedule(s)]].filter(([, v]) => v).forEach(([ic, v]) => {
       const r = el('div', 'row'); r.append(el('span', null, ic), el('b', null, v)); body.append(r);
     });
-    if (s.description) body.append(el('p', 'desc', s.description));
+    const isOurPhoto = (u) => typeof u === 'string' && u.startsWith(SUPABASE_URL + '/storage/');
+    if (s.description) { body.append(el('h2', null, 'Nuestra historia')); body.append(el('p', 'desc story', s.description)); }
+    const gallery = (s.gallery || []).filter(isOurPhoto).slice(0, 6);
+    if (gallery.length) {
+      body.append(el('h2', null, 'Fotos del local'));
+      const g = el('div', 'gallery');
+      gallery.forEach(u => { const img = el('img'); img.src = u; img.alt = 'Foto de ' + s.name; img.loading = 'lazy'; g.append(img); });
+      body.append(g);
+    }
     products.sort((a, b) => (a.available === false) - (b.available === false));   // agotados al final
     const SHOW = 15;   // si son muchos, se muestran 15 y un botón para ver el resto
     body.append(el('h2', null, products.length ? `Productos y precios (${products.length})` : 'Productos y precios'));
