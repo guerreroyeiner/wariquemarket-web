@@ -66,6 +66,7 @@
   .products li:last-child { border-bottom: none; }
   .out { color: var(--muted); }
   .empty { color: var(--muted); }
+  .old { color: #b45309; font-size: 0.75rem; }
   .more { font: inherit; font-weight: 700; font-size: 0.9rem; color: var(--accent); background: var(--accent-dim); border: none; border-radius: 12px; padding: 10px; cursor: pointer; }
   .more:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   .price.out { color: var(--muted); font-weight: 500; }
@@ -130,7 +131,7 @@
 
   if (!id) showState('Este link no es válido', 'Pide que te lo compartan de nuevo.');
   else Promise.all([
-    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,gallery,open_time,close_time,open_days,latitude,longitude,rating,delivery,delivery_fee,delivery_min,closed_until`),
+    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,gallery,open_time,close_time,open_days,latitude,longitude,rating,plan,pro_until,delivery,delivery_fee,delivery_min,closed_until`),
     api(`products?store_id=eq.${id}&select=*&order=name&limit=500`).catch(() => []),
   ]).then(([stores, products]) => {
     const s = stores[0];
@@ -149,6 +150,10 @@
     if (s.category) chips.append(el('span', 'chip', s.category));
     if (Number(s.rating) > 0) chips.append(el('span', 'chip', '★ ' + Number(s.rating).toFixed(1)));
     const money = (v) => 'S/ ' + Number(v).toFixed(2);
+    const days = (p) => p.price_updated_at ? Math.floor((Date.now() - new Date(p.price_updated_at)) / 86400000) : null;   // null = aún sin fecha
+    const pro = s.plan === 'pro' && !(s.pro_until && new Date(s.pro_until) <= new Date());
+    const priced = products.filter(p => p.price != null);
+    if (pro && priced.length && priced.every(p => days(p) != null && days(p) <= 7)) chips.append(el('span', 'chip', '✅ Precios al día'));
     if (s.delivery === true) chips.append(el('span', 'chip', '🛵 Delivery' + (s.delivery_fee == null ? '' : Number(s.delivery_fee) === 0 ? ' gratis' : ' ' + money(s.delivery_fee)) + (s.delivery_min ? ' · mínimo ' + money(s.delivery_min) : '')));
     if (s.delivery === false) chips.append(el('span', 'chip', '🏪 Solo recojo'));
     if (s.closed_until && new Date(s.closed_until) > new Date()) chips.append(el('span', 'chip closed', 'Cerrado · vuelve el ' + new Date(s.closed_until).toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric' })));
@@ -174,7 +179,9 @@
       products.forEach((p, i) => {
         const li = el('li'); const out = p.available === false;
         if (i >= SHOW) li.hidden = true;
-        li.append(el('span', out ? 'out' : null, p.name), el('span', out ? 'price out' : 'price', out ? 'Agotado' : p.price != null ? 'S/ ' + Number(p.price).toFixed(2) : 'Consultar'));
+        const name = el('span', out ? 'out' : null, p.name);
+        if (!out && p.price != null && days(p) > 14) name.append(el('small', 'old', ' · precio de hace ' + days(p) + ' días'));
+        li.append(name, el('span', out ? 'price out' : 'price', out ? 'Agotado' : p.price != null ? 'S/ ' + Number(p.price).toFixed(2) : 'Consultar'));
         ul.append(li);
       });
       body.append(ul);
