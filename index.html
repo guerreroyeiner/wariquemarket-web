@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WariqueMarket — la bodega de tu barrio</title>
+<meta name="description" content="Encuentra las bodegas, mercados, pollerías y farmacias de tu barrio: qué venden, a cuánto, si están abiertas y cómo llegar. Hecho en Lima.">
+<meta property="og:title" content="WariqueMarket">
+<meta property="og:description" content="Tu bodega de confianza, a pasos de ti. Compara precios, mira si está abierta y pide por WhatsApp.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Layout: página editorial en verde bosque; secciones en papel crema para el local destacado y la descarga. */
+  :root {
+    --forest: #0f2e26;        /* fondo principal */
+    --forest-2: #163a30;      /* tarjetas sobre el bosque */
+    --forest-3: #1d4639;
+    --line: rgba(230, 244, 236, .14);
+    --ink: #eef6f1;           /* texto sobre bosque */
+    --ink-soft: #b9d3c6;
+    --ink-mute: #84a596;
+    --mint: #82ccb1;          /* acento */
+    --mint-deep: #5bb393;
+    --brand: #16a869;         /* verde de la app */
+    --paper: #f6f4ef;         /* secciones crema */
+    --paper-ink: #13291f;
+    --paper-soft: #4c6559;
+    --paper-line: #ddd8cc;
+    --awning: #ef5a2b;        /* toldo rojo del logo */
+    --serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+    --sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--forest); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding-inline: 24px; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; border-radius: 8px; }
+  .serif { font-family: var(--serif); font-weight: 400; }
+  .mono { font-family: var(--mono); }
+  em { font-style: italic; color: var(--mint); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); }
+  h1, h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.02em; text-wrap: balance; margin: 0; }
+  h2 { font-size: clamp(2.3rem, 5vw, 4.2rem); line-height: 1.02; }
+
+  .btn { display: inline-flex; align-items: center; gap: 10px; font: 700 15px var(--sans); text-decoration: none; border-radius: 999px; padding: 14px 24px; border: 1px solid transparent; cursor: pointer; transition: transform .15s ease, background .15s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--mint); color: var(--forest); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); background: transparent; }
+  .btn-dark { background: var(--paper-ink); color: var(--paper); }
+
+  /* ── Barra superior ── */
+  header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(15, 46, 38, .86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; gap: 12px; padding-block: 14px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { width: 40px; height: 40px; border-radius: 50%; background: #fff; object-fit: contain; }
+  .logo b { font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+  .logo b span { color: var(--mint); }
+  nav { margin-left: auto; display: flex; gap: 26px; align-items: center; }
+  nav a { text-decoration: none; color: var(--ink-soft); font-size: 14px; font-weight: 500; }
+  nav a:hover { color: var(--ink); }
+  nav .btn { padding: 10px 18px; font-size: 14px; }
+
+  /* ── Hero ── */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: 56px; align-items: center; padding-block: 64px 40px; }
+  .hero h1 { font-size: clamp(3.2rem, 8vw, 6.6rem); line-height: .95; margin: 22px 0 26px; }
+  .lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 33em; margin: 0 0 32px; }
+  .lead strong { color: var(--ink); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .apk-note { font: 12px var(--mono); color: var(--ink-mute); margin-top: 14px; }
+
+  .marquee { margin-top: 48px; border-block: 1px solid var(--line); padding-block: 13px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee-track { display: flex; gap: 34px; width: max-content; animation: slide 38s linear infinite; font: 13px var(--mono); color: var(--ink-mute); white-space: nowrap; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* Teléfono de muestra */
+  .phone-wrap { position: relative; display: flex; justify-content: center; }
+  .phone-wrap::before { content: ""; position: absolute; inset: 8% 4%; background: radial-gradient(ellipse at center, rgba(130, 204, 177, .28), transparent 65%); filter: blur(24px); }
+  .phone { position: relative; width: min(330px, 100%); background: #0a1f19; border-radius: 42px; padding: 11px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7); transform: rotate(2deg); }
+  .screen { background: #f0f7f3; color: #0e1f17; border-radius: 32px; overflow: hidden; }
+  .scr-top { background: var(--brand); color: #fff; padding: 22px 18px 16px; }
+  .scr-top small { font-size: 11px; opacity: .85; font-weight: 600; }
+  .scr-top div.hi { font-size: 20px; font-weight: 800; margin: 2px 0 12px; }
+  .scr-search { background: #fff; color: #5b7a6c; border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+  .scr-body { padding: 14px; display: grid; gap: 9px; }
+  .scr-label { font-size: 10px; font-weight: 800; letter-spacing: .08em; color: #5b7a6c; }
+  .hit { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #d6ede2; border-radius: 14px; padding: 10px 12px; }
+  .hit.best { border-color: var(--brand); }
+  .hit .ico { width: 34px; height: 34px; border-radius: 10px; background: #e6f7f0; display: grid; place-items: center; font-size: 17px; flex-shrink: 0; }
+  .hit .nm { font-size: 13px; font-weight: 800; line-height: 1.25; }
+  .hit .st { font-size: 11px; color: #5b7a6c; }
+  .hit .pr { margin-left: auto; text-align: right; font-weight: 800; color: var(--brand); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .hit .pr small { display: block; font-size: 9px; letter-spacing: .06em; }
+  .float-card { position: absolute; right: -6px; bottom: 26px; width: 214px; background: var(--forest-2); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: flex; gap: 10px; transform: rotate(-3deg); box-shadow: 0 20px 40px -20px rgba(0, 0, 0, .6); }
+  .float-card .ic { width: 34px; height: 34px; border-radius: 10px; background: var(--forest-3); display: grid; place-items: center; }
+  .float-card b { font-size: 12px; display: block; line-height: 1.3; }
+  .float-card span { font: 10px var(--mono); color: var(--ink-mute); }
+  .stamp { position: absolute; left: 0; bottom: -6px; font: 700 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--awning); border: 2px solid var(--awning); border-radius: 8px; padding: 6px 10px; transform: rotate(-6deg); background: var(--forest); }
+
+  /* Cifras en vivo */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; border-top: 1px solid var(--line); padding-block: 30px 10px; }
+  .stat .n { font-family: var(--serif); font-size: 3.2rem; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .stat .l { font-weight: 700; font-size: 14px; margin-top: 8px; }
+  .stat .s { font: 11px var(--mono); color: var(--ink-mute); margin-top: 3px; }
+  .live { display: inline-flex; align-items: center; gap: 8px; font: 11px var(--mono); color: var(--ink-mute); margin-top: 14px; }
+  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); animation: pulse 1.8s ease-out infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(130, 204, 177, .6); } 100% { box-shadow: 0 0 0 10px rgba(130, 204, 177, 0); } }
+  .starting { border-top: 1px solid var(--line); padding-block: 28px 8px; display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; }
+  .starting p { margin: 0; color: var(--ink-soft); max-width: 40em; }
+  .starting b { color: var(--ink); }
+
+  section { padding-block: 88px; }
+
+  /* Mapa de muestra */
+  .map-card { display: grid; grid-template-columns: minmax(0, 1fr) 340px; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: var(--forest-2); margin-top: 36px; }
+  .map { position: relative; aspect-ratio: 4 / 3; background: #173f33; border-right: 1px solid var(--line); overflow: hidden; }
+  .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pin { position: absolute; transform: translate(-50%, -100%); border: 0; background: none; cursor: pointer; padding: 0; }
+  .pin span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--forest-3); border: 2px solid var(--mint); box-shadow: 0 6px 14px rgba(0, 0, 0, .35); transition: background .15s, transform .15s; }
+  .pin span em { transform: rotate(45deg); font-style: normal; font-size: 17px; }
+  .pin.closed span { border-color: #7d8f88; filter: saturate(.4); }
+  .pin.on span { background: var(--awning); border-color: #fff; transform: rotate(-45deg) scale(1.15); }
+  .me { position: absolute; left: 50%; top: 54%; width: 18px; height: 18px; margin: -9px; border-radius: 50%; background: #4aa3ff; border: 3px solid #fff; box-shadow: 0 0 0 10px rgba(74, 163, 255, .2); }
+  .map-tag { position: absolute; left: 14px; top: 14px; font: 11px var(--mono); background: var(--forest); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; color: var(--ink-soft); }
+  .list { display: flex; flex-direction: column; }
+  .list-head { padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  .list-head small { font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mute); }
+  .list-head b { display: block; font-size: 16px; margin-top: 2px; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 13px 20px; border: 0; border-bottom: 1px solid var(--line); background: none; color: inherit; text-align: left; cursor: pointer; font: inherit; width: 100%; }
+  .row.on { background: var(--forest-3); }
+  .row .ico { width: 40px; height: 40px; border-radius: 12px; background: var(--forest-3); display: grid; place-items: center; font-size: 19px; flex-shrink: 0; border: 1px solid var(--line); }
+  .row.on .ico { background: var(--mint); }
+  .row .nm { font-weight: 700; font-size: 14px; }
+  .row .ad { font: 11px var(--mono); color: var(--ink-mute); }
+  .row .meta { margin-left: auto; text-align: right; font: 10px var(--mono); color: var(--ink-soft); white-space: nowrap; }
+  .pill { display: inline-block; font: 600 10px var(--mono); border-radius: 999px; padding: 2px 8px; margin-bottom: 4px; }
+  .pill.open { background: rgba(130, 204, 177, .18); color: var(--mint); }
+  .pill.shut { background: rgba(239, 90, 43, .16); color: #ff9a76; }
+  .sel-bar { margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--line); background: var(--forest-3); font-size: 13px; color: var(--ink-soft); }
+  .sel-bar b { color: var(--ink); }
+
+  /* Funciones */
+  .feats { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.4fr); gap: 60px; align-items: start; }
+  .feats .side { position: sticky; top: 110px; }
+  .feats .side p { color: var(--ink-soft); font-size: 17px; max-width: 26em; }
+  .feat { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 20px; padding-block: 26px; border-top: 1px solid var(--line); }
+  .feat:last-child { border-bottom: 1px solid var(--line); }
+  .feat .k { width: 54px; height: 54px; border-radius: 16px; background: var(--forest-2); border: 1px solid var(--line); display: grid; place-items: center; font-size: 25px; }
+  .feat h3 { font-size: 21px; margin: 2px 0 6px; letter-spacing: -.01em; }
+  .feat p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+  /* Secciones en papel */
+  .paper { background: var(--paper); color: var(--paper-ink); }
+  .paper .eyebrow { color: #2f7f62; }
+  .paper em { color: #2f7f62; }
+  .owners { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 56px; align-items: center; }
+  .owners p { color: var(--paper-soft); font-size: 17px; }
+  .owners ul { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 14px; }
+  .owners li { display: flex; gap: 14px; align-items: flex-start; }
+  .owners li .k { font-size: 20px; }
+  .owners li b { display: block; font-size: 15px; }
+  .owners li span { font-size: 14px; color: var(--paper-soft); }
+  .dash { background: #fff; border: 1px solid var(--paper-line); border-radius: 22px; padding: 22px; box-shadow: 0 30px 60px -36px rgba(15, 46, 38, .45); }
+  .dash-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .dash-head .av { width: 42px; height: 42px; border-radius: 50%; background: #e6f7f0; display: grid; place-items: center; font-size: 19px; }
+  .dash-head b { display: block; }
+  .dash-head small { font: 10px var(--mono); color: var(--paper-soft); }
+  .dash-head .ok { margin-left: auto; font: 600 10px var(--mono); color: #1f8a5f; background: #e6f7f0; border-radius: 999px; padding: 3px 10px; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .kpi { background: #f4f8f6; border: 1px solid #e3ece7; border-radius: 14px; padding: 13px; }
+  .kpi .n { font-family: var(--serif); font-size: 30px; line-height: 1; }
+  .kpi .l { font-size: 11px; font-weight: 700; margin-top: 6px; }
+  .kpi .d { font: 10px var(--mono); color: #1f8a5f; margin-top: 2px; }
+  .chart { background: #f4f8f6; border: 1px solid #e3ece7; border-radius: 14px; padding: 14px; }
+  .chart-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .chart-head span { font: 10px var(--mono); color: #1f8a5f; }
+  .chart svg { width: 100%; height: 86px; display: block; }
+  .days { display: flex; justify-content: space-between; font: 10px var(--mono); color: var(--paper-soft); margin-top: 4px; }
+  .free-tag { display: inline-block; margin-top: 24px; font: 700 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--brand); border-radius: 999px; padding: 8px 16px; }
+
+  /* Cómo funciona */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+  .step { position: relative; overflow: hidden; background: var(--forest-2); border: 1px solid var(--line); border-radius: 20px; padding: 24px; }
+  .step .big { position: absolute; top: -14px; right: -2px; font: italic 92px/1 var(--serif); color: var(--forest-3); }
+  .step .num { position: relative; font: 11px var(--mono); letter-spacing: .12em; color: var(--mint); margin-bottom: 54px; }
+  .step h3 { position: relative; font-size: 18px; margin: 0 0 8px; }
+  .step p { position: relative; margin: 0; color: var(--ink-soft); font-size: 14px; }
+
+  /* Descarga + diccionario */
+  .final { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+  .final p { color: var(--paper-soft); font-size: 17px; max-width: 32em; }
+  .install { margin: 22px 0 28px; padding: 0; list-style: none; display: grid; gap: 10px; counter-reset: paso; }
+  .install li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: var(--paper-soft); }
+  .install li::before { counter-increment: paso; content: counter(paso); flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--paper-ink); color: var(--paper); display: grid; place-items: center; font: 700 12px var(--sans); margin-top: 1px; }
+  .install b { color: var(--paper-ink); }
+  .dict { position: relative; background: #fff; border: 1px solid var(--paper-line); border-radius: 20px; padding: 26px; transform: rotate(-1.5deg); box-shadow: 0 24px 50px -30px rgba(15, 46, 38, .4); }
+  .dict small { font: 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--paper-soft); }
+  .dict .w { font: italic 44px/1 var(--serif); margin: 10px 0 4px; }
+  .dict .g { font: 11px var(--mono); color: var(--paper-soft); margin-bottom: 14px; }
+  .dict p { font-size: 15px; margin: 0; color: var(--paper-ink); }
+  .dict .stamp2 { position: absolute; top: -16px; right: -8px; transform: rotate(8deg); font: 700 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--brand); border: 2px solid var(--brand); border-radius: 8px; padding: 6px 10px; background: var(--paper); }
+
+  /* Contacto y pie */
+  .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; border: 1px solid var(--line); border-radius: 20px; padding: 20px 22px; background: var(--forest-2); }
+  .mail { font-weight: 800; font-size: 18px; user-select: all; }
+  .copy { margin-left: auto; font: 700 14px var(--sans); border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 999px; padding: 10px 18px; cursor: pointer; }
+  footer { border-top: 1px solid var(--line); padding-block: 30px 44px; display: flex; flex-wrap: wrap; gap: 10px 26px; font: 12px var(--mono); color: var(--ink-mute); }
+  footer a { color: var(--ink-soft); }
+
+  @media (max-width: 900px) {
+    nav a:not(.btn) { display: none; }
+    .hero, .feats, .owners, .final, .map-card { grid-template-columns: minmax(0, 1fr); }
+    .feats .side { position: static; }
+    .map { border-right: 0; border-bottom: 1px solid var(--line); }
+    .stats, .steps { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding-block: 36px 24px; gap: 40px; }
+    .phone { transform: none; }
+    section { padding-block: 64px; }
+  }
+  @media (max-width: 480px) {
+    .stats, .steps, .kpis { grid-template-columns: minmax(0, 1fr); }
+    .float-card { right: 0; width: 190px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track, .live i { animation: none; }
+    .btn { transition: none; }
+    .btn:hover { transform: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio"><img src="logo.png" alt=""><b>Warique<span>Market</span></b></a>
+    <nav>
+      <a href="#explorar">El mapa</a>
+      <a href="#duenos">Para dueños</a>
+      <a href="#como">Cómo funciona</a>
+      <a class="btn btn-primary" href="#descargar">Descargar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">↘ 12°2'S 77°1'W · Lima · Perú</div>
+        <h1>Tu bodega<br>de confianza,<br><em>a pasos de ti.</em></h1>
+        <p class="lead">En el habla limeña, un <em>warique</em> es ese sitio que solo conocen los del barrio. <strong>WariqueMarket</strong> los pone a todos en el mapa: bodegas, minimarkets, mercados, pollerías y boticas, con sus precios, su horario y cómo llegar.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#descargar">Descargar para Android ↘</a>
+          <a class="btn btn-ghost" href="#duenos">Tengo un negocio</a>
+        </div>
+        <div class="apk-note">Gratis · Android · pronto en Google Play</div>
+      </div>
+
+      <div class="phone-wrap" aria-hidden="true">
+        <div class="phone">
+          <div class="screen">
+            <div class="scr-top">
+              <small>📍 San Martín de Porres, Lima</small>
+              <div class="hi">Hola, Rosa 👋</div>
+              <div class="scr-search">🔍 arroz costeño</div>
+            </div>
+            <div class="scr-body">
+              <div class="scr-label">DEL MÁS BARATO AL MÁS CARO</div>
+              <div class="hit best"><div class="ico">🛒</div><div><div class="nm">Arroz Costeño 1 kg</div><div class="st">Minimarket Rosita · 350 m</div></div><div class="pr">S/ 3.90<small>MÁS BARATO</small></div></div>
+              <div class="hit"><div class="ico">🏪</div><div><div class="nm">Arroz Costeño 1 kg</div><div class="st">Bodega Don Pepe · 120 m</div></div><div class="pr">S/ 4.20</div></div>
+              <div class="hit"><div class="ico">🧺</div><div><div class="nm">Arroz Paisana 1 kg</div><div class="st">Mercado Central · 1.2 km</div></div><div class="pr">S/ 4.50</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="float-card"><div class="ic">🔥</div><div><b>Pollo entero a S/ 8.90 el kilo</b><span>Mercado Central · termina hoy</span></div></div>
+        <div class="stamp">Hecho en Lima</div>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
+
+    <!-- Cifras: se llenan desde Supabase; solo se muestran cuando ya hay suficientes locales -->
+    <div id="stats-live" hidden>
+      <div class="stats">
+        <div class="stat"><div class="n" id="s-locales">—</div><div class="l">Locales publicados</div><div class="s">revisados uno por uno</div></div>
+        <div class="stat"><div class="n" id="s-usuarios">—</div><div class="l">Vecinos registrados</div><div class="s">clientes y dueños</div></div>
+        <div class="stat"><div class="n" id="s-resenas">—</div><div class="l">Reseñas</div><div class="s" id="s-promedio">de clientes reales</div></div>
+        <div class="stat"><div class="n" id="s-productos">—</div><div class="l">Productos con precio</div><div class="s">para comparar</div></div>
+      </div>
+      <div class="live"><i></i> Cifras en vivo, actualizadas al abrir la página</div>
+    </div>
+    <div id="stats-starting" class="starting">
+      <span class="pill open" style="margin:0">● estamos empezando</span>
+      <p><b>WariqueMarket está llegando a los barrios de Lima.</b> Si tienes una bodega o un negocio, regístralo gratis y sé de los primeros en aparecer en el mapa.</p>
+    </div>
+  </div>
+
+  <section id="explorar">
+    <div class="wrap">
+      <div class="eyebrow">El mapa del barrio</div>
+      <h2>Cinco <em>cuadras</em>.<br>Tu próximo encarguito.</h2>
+      <div class="map-card">
+        <div class="map" id="map">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+            <rect width="400" height="300" fill="#173f33"/>
+            <rect x="250" y="40" width="110" height="80" rx="10" fill="#1f5242"/>
+            <rect x="26" y="190" width="96" height="80" rx="10" fill="#1f5242"/>
+            <path d="M-10 70 L410 120 M-10 175 L410 150 M-10 255 L410 230 M80 -10 L120 310 M220 -10 L195 310 M330 -10 L350 310" stroke="#2c6553" stroke-width="13" fill="none"/>
+            <path d="M-10 210 Q200 175 410 205" stroke="#c9a54a" stroke-opacity=".55" stroke-width="7" fill="none"/>
+          </svg>
+          <div class="map-tag">Ejemplo · San Isidro</div>
+          <div class="me"></div>
+        </div>
+        <div class="list">
+          <div class="list-head"><small>Cercanas · ejemplo</small><b>Ordenadas por distancia</b></div>
+          <div id="rows"></div>
+          <div class="sel-bar" id="sel-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap feats">
+      <div class="side">
+        <div class="eyebrow">Por qué WariqueMarket</div>
+        <h2 style="margin:14px 0 22px">El barrio, <em>digitalizado</em> sin perder la sazón.</h2>
+        <p>Sin comisiones y sin algoritmos que esconden al de la esquina. Un mapa amable, para vecinos y caseros por igual.</p>
+      </div>
+      <div>
+        <div class="feat"><div class="k">🛒</div><div><h3>Compara precios</h3><p>Busca "azúcar" o "gaseosa" y ve qué locales cercanos lo tienen y a cuánto. Primero el más barato.</p></div></div>
+        <div class="feat"><div class="k">🕐</div><div><h3>¿Está abierto ahora?</h3><p>Cada local muestra si atiende en este momento y a qué hora cierra, según su horario.</p></div></div>
+        <div class="feat"><div class="k">🛵</div><div><h3>Pide por WhatsApp</h3><p>Arma tu pedido en la app y se lo mandas al local con el total ya calculado. Delivery o recojo.</p></div></div>
+        <div class="feat"><div class="k">🔥</div><div><h3>Ofertas del día</h3><p>Marca tus locales con ❤️ y te avisamos cuando publiquen una oferta.</p></div></div>
+        <div class="feat"><div class="k">⭐</div><div><h3>Reseñas de vecinos</h3><p>Una reseña por cuenta y por local. Los dueños pueden responder y las ofensivas se pueden reportar.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper" id="duenos">
+    <div class="wrap owners">
+      <div>
+        <div class="eyebrow">Para dueños</div>
+        <h2 style="margin:14px 0 22px">Tu negocio,<br>en <em>números</em>.</h2>
+        <p>Cuántos vecinos vieron tu local, cuántos pidieron cómo llegar y cuántos te escribieron. El panel cabe en tu celular.</p>
+        <ul>
+          <li><span class="k">📸</span><div><b>Fotos de tu local</b><span>Portada y galería con tus productos.</span></div></li>
+          <li><span class="k">🏷️</span><div><b>Productos con precio</b><span>Tus clientes los encuentran cuando buscan.</span></div></li>
+          <li><span class="k">🔥</span><div><b>Ofertas del día</b><span>Llegan como aviso a quienes te tienen en favoritos.</span></div></li>
+          <li><span class="k">💬</span><div><b>Pedidos por WhatsApp</b><span>Te llegan listos, con los productos y el total.</span></div></li>
+        </ul>
+        <span class="free-tag">Gratis para negocios</span>
+      </div>
+      <div class="dash" aria-label="Ejemplo del panel del dueño">
+        <div class="dash-head"><div class="av">🏪</div><div><b>Bodega Don Pepe</b><small>ejemplo · últimos 7 días</small></div><span class="ok">publicado</span></div>
+        <div class="kpis">
+          <div class="kpi"><div class="n">148</div><div class="l">Visitas</div><div class="d">▲ 12% vs semana ant.</div></div>
+          <div class="kpi"><div class="n">37</div><div class="l">Cómo llegar</div><div class="d">abrieron el mapa</div></div>
+          <div class="kpi"><div class="n">19</div><div class="l">Contactos</div><div class="d">llamadas y WhatsApp</div></div>
+        </div>
+        <div class="chart">
+          <div class="chart-head">Visitas por día <span>↗ subiendo</span></div>
+          <svg viewBox="0 0 280 86" preserveAspectRatio="none" aria-hidden="true">
+            <defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16a869" stop-opacity=".35"/><stop offset="1" stop-color="#16a869" stop-opacity="0"/></linearGradient></defs>
+            <path d="M6,60 L50,52 L94,56 L138,40 L182,44 L226,28 L270,16 L270,86 L6,86 Z" fill="url(#fill)"/>
+            <path d="M6,60 L50,52 L94,56 L138,40 L182,44 L226,28 L270,16" fill="none" stroke="#16a869" stroke-width="2.5"/>
+            <circle cx="270" cy="16" r="4.5" fill="#16a869"/>
+          </svg>
+          <div class="days"><span>lun</span><span>mar</span><span>mié</span><span>jue</span><span>vie</span><span>sáb</span><span>dom</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="wrap">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2>Simple para <em>todos.</em></h2>
+      <div class="steps">
+        <div class="step"><div class="big">01</div><div class="num">PASO 01</div><h3>Abre WariqueMarket</h3><p>Ves los locales de tu zona, ordenados por cercanía, con lo que venden.</p></div>
+        <div class="step"><div class="big">02</div><div class="num">PASO 02</div><h3>Toca un local</h3><p>Horario, productos con precio, ofertas y reseñas. "Cómo llegar" abre la ruta.</p></div>
+        <div class="step"><div class="big">03</div><div class="num">PASO 03</div><h3>¿Tienes un negocio?</h3><p>Regístralo gratis. Lo revisamos y en menos de 24 horas aparece en el mapa.</p></div>
+        <div class="step"><div class="big">04</div><div class="num">PASO 04</div><h3>Crece con tu cuadra</h3><p>Reseñas, ofertas y pedidos por WhatsApp: nuevos clientes que ya te conocen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper" id="descargar">
+    <div class="wrap final">
+      <div>
+        <div class="eyebrow">Descarga</div>
+        <h2 style="margin:14px 0 18px">¿Dónde queda <em>tu warique?</em></h2>
+        <p>Mientras llega a Google Play, se instala con el archivo de descarga. Toma un minuto.</p>
+        <ol class="install">
+          <li><span>Toca <b>Descargar para Android</b> desde tu celular.</span></li>
+          <li><span>Abre el archivo. Si Android pregunta, permite <b>instalar apps desconocidas</b>.</span></li>
+          <li><span>Si aparece Play Protect, toca <b>Instalar de todas formas</b>.</span></li>
+          <li><span><b>Regístrate</b> como cliente o como dueño de negocio, ¡y listo!</span></li>
+        </ol>
+        <a class="btn btn-dark" id="apk-btn" href="https://expo.dev/artifacts/eas/5w-reEX7QDRoVA1U3koAPgghlomlZLe6Ei35avoY3j8.apk" rel="noopener">⬇️ Descargar para Android</a>
+      </div>
+      <div class="dict">
+        <div class="stamp2">✓ Aprobado por el barrio</div>
+        <small>Diccionario rápido</small>
+        <div class="w">warique</div>
+        <div class="g">sust. masc. · Perú</div>
+        <p>Sitio escondido o poco conocido, generalmente de comida o de barrio, que se vuelve favorito por su sazón, su precio o su trato familiar. <em>"Te llevo a mi warique de la esquina."</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Contacto</div>
+      <h2 style="margin:14px 0 26px">¿Preguntas o <em>sugerencias</em>?</h2>
+      <div class="contact">
+        <span>✉️</span><span class="mail" id="mail">wariquemarket@gmail.com</span>
+        <button class="copy" id="copy" type="button">Copiar correo</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>© 2026 WariqueMarket</span>
+    <a href="privacidad.html">Política de privacidad</a>
+    <span>Hecho con cariño en Lima, Perú · 12°2′35″S 77°1′41″W</span>
+  </footer>
+</div>
+
+<script>
+  // ── Cifras en vivo desde Supabase (función pública public_stats: solo totales) ──
+  const SUPABASE_URL = 'https://duvmuiiwnkdrxgehvojx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_3x48rYpOiy_PXlvrkJuPxg_IXLAbfxm';   // clave pública (la misma de la app)
+  const MIN_LOCALES_PARA_MOSTRAR = 10;   // con menos locales se muestra "estamos empezando"
+
+  const fmt = n => Number(n || 0).toLocaleString('es-PE');
+  fetch(SUPABASE_URL + '/rest/v1/rpc/public_stats', {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
+    body: '{}',
+  }).then(r => r.ok ? r.json() : null).then(s => {
+    if (!s || s.locales < MIN_LOCALES_PARA_MOSTRAR) return;
+    document.getElementById('s-locales').textContent   = fmt(s.locales);
+    document.getElementById('s-usuarios').textContent  = fmt(s.usuarios);
+    document.getElementById('s-resenas').textContent   = fmt(s.resenas);
+    document.getElementById('s-productos').textContent = fmt(s.productos);
+    if (s.promedio) document.getElementById('s-promedio').textContent = 'promedio ' + s.promedio + ' ★';
+    document.getElementById('stats-live').hidden = false;
+    document.getElementById('stats-starting').hidden = true;
+  }).catch(() => {});
+
+  // ── Cinta de categorías ──
+  const cats = ['🥛 Lácteos','🍞 Pan del día','🥤 Bebidas heladas','🍗 Pollo a la brasa','🧴 Limpieza','🥫 Conservas','🍬 Golosinas','💊 Botica','🥬 Frutas y verduras','🧻 Higiene','📱 Recarga celular','🔥 Gas a domicilio','🥚 Huevos por kilo'];
+  document.getElementById('marquee').innerHTML = [...cats, ...cats].map(c => '<span>' + c + '</span>').join('');
+
+  // ── Mapa de muestra ──
+  const BODEGAS = [
+    { id:'pepe',   name:'Bodega Don Pepe',     addr:'Av. Las Flores 214', dist:'120 m',  open:true,  hrs:'cierra 10 pm',   icon:'🏪', x:38, y:40 },
+    { id:'rosita', name:'Minimarket Rosita',   addr:'Jr. Huáscar 455',    dist:'350 m',  open:true,  hrs:'cierra 11 pm',   icon:'🛒', x:66, y:30 },
+    { id:'tio',    name:'Pollería El Tío',     addr:'Av. Perú 2210',      dist:'600 m',  open:false, hrs:'abre 6 pm',      icon:'🍗', x:24, y:74 },
+    { id:'sj',     name:'Panadería San José',  addr:'Jr. Lima 88',        dist:'800 m',  open:true,  hrs:'cierra 9 pm',    icon:'🍞', x:74, y:70 },
+    { id:'boti',   name:'Botica La Salud',     addr:'Av. Brasil 1502',    dist:'1.1 km', open:true,  hrs:'abierto 24 h',   icon:'💊', x:52, y:84 },
+  ];
+  let sel = 'pepe';
+  const map = document.getElementById('map'), rows = document.getElementById('rows'), bar = document.getElementById('sel-bar');
+  function render() {
+    map.querySelectorAll('.pin').forEach(p => p.remove());
+    BODEGAS.forEach(b => {
+      const p = document.createElement('button');
+      p.className = 'pin' + (b.open ? '' : ' closed') + (b.id === sel ? ' on' : '');
+      p.style.left = b.x + '%'; p.style.top = b.y + '%';
+      p.setAttribute('aria-label', b.name);
+      p.innerHTML = '<span><em>' + b.icon + '</em></span>';
+      p.onclick = () => { sel = b.id; render(); };
+      map.appendChild(p);
+    });
+    rows.innerHTML = BODEGAS.map(b =>
+      '<button class="row' + (b.id === sel ? ' on' : '') + '" data-id="' + b.id + '">' +
+        '<div class="ico">' + b.icon + '</div>' +
+        '<div><div class="nm">' + b.name + '</div><div class="ad">' + b.addr + '</div></div>' +
+        '<div class="meta"><span class="pill ' + (b.open ? 'open' : 'shut') + '">' + (b.open ? 'abierto' : 'cerrado') + '</span><br>' + b.dist + '</div>' +
+      '</button>').join('');
+    rows.querySelectorAll('.row').forEach(r => r.onclick = () => { sel = r.dataset.id; render(); });
+    const b = BODEGAS.find(x => x.id === sel);
+    bar.innerHTML = '<b>' + b.name + '</b> · ' + (b.open ? 'Abierto, ' : 'Cerrado, ') + b.hrs + ' · ' + b.dist;
+  }
+  render();
+
+  // ── Copiar correo ──
+  document.getElementById('copy').addEventListener('click', async e => {
+    const btn = e.currentTarget, txt = document.getElementById('mail').textContent;
+    try { await navigator.clipboard.writeText(txt); btn.textContent = 'Copiado ✓'; }
+    catch { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail'));
+            const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Cópialo con Ctrl + C'; }
+    setTimeout(() => { btn.textContent = 'Copiar correo'; }, 2200);
+  });
+</script>
+</body>
+</html>

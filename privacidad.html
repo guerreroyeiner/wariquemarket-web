@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de Privacidad — WariqueMarket</title>
+<link rel="icon" href="logo.png">
+</head>
+<body>
+
+<style>
+  /* Layout: single-column document, max 700px, with a branded header */
+  :root {
+    --bg: #f7faf8;
+    --surface: #ffffff;
+    --text: #1a2e22;
+    --muted: #5a7366;
+    --accent: #16a869;
+    --accent-dim: #e8f5ee;
+    --border: #d4e8dc;
+    --display: 'Playfair Display', Georgia, serif;
+    --body: 'Inter', system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111c15;
+      --surface: #1a2e22;
+      --text: #e8f5ee;
+      --muted: #8fb8a0;
+      --accent: #22d47f;
+      --accent-dim: #1a3525;
+      --border: #2a4a35;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111c15;
+    --surface: #1a2e22;
+    --text: #e8f5ee;
+    --muted: #8fb8a0;
+    --accent: #22d47f;
+    --accent-dim: #1a3525;
+    --border: #2a4a35;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+
+  body {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    padding-inline: 20px;
+  }
+
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-block: 48px;
+  }
+
+  header {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-img { width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 1px solid var(--border); object-fit: contain; }
+
+  .app-name {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text);
+    text-wrap: balance;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .meta {
+    font-size: 0.875rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  section {
+    margin-bottom: 36px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-wrap: balance;
+  }
+
+  p { margin-bottom: 12px; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  ul {
+    padding-left: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  li { color: var(--text); }
+
+  .highlight {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+  }
+
+  .highlight p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: underline; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 48px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 480px) {
+    body { padding-inline: 16px; }
+    .page { padding-block: 32px; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap">
+
+<div class="page">
+  <header>
+    <div class="logo-row">
+      <img class="logo-img" src="logo.png" alt="" width="48" height="48">
+      <a href="index.html" style="text-decoration:none;color:inherit"><span class="app-name">WariqueMarket</span></a>
+    </div>
+    <h1>Política de Privacidad</h1>
+    <p class="meta">Última actualización: 13 de octubre de 2026</p>
+  </header>
+
+  <section>
+    <div class="highlight">
+      <p>WariqueMarket es una aplicación que te ayuda a encontrar bodegas, mercados y tiendas cercanas en Perú, ver sus productos y precios, y dejar reseñas. Aquí explicamos qué datos usamos y para qué.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>1. Información que recopilamos</h2>
+    <ul>
+      <li><strong>Cuenta:</strong> tu nombre y correo electrónico, para crear tu cuenta e iniciar sesión. La contraseña se guarda cifrada; nadie puede leerla.</li>
+      <li><strong>Ubicación:</strong> para mostrarte los locales más cercanos y su distancia. Se usa solo en tu teléfono mientras la app está abierta y <strong>no se guarda</strong> en nuestros servidores.</li>
+      <li><strong>Datos de tu local (propietarios):</strong> nombre, dirección, ubicación en el mapa, teléfono, horario, categoría, descripción, productos con precios y fotos. Esta información es pública: la ven los clientes en la app.</li>
+      <li><strong>Reseñas:</strong> la calificación, el comentario y el nombre con el que firmas. Son públicas. Los dueños pueden responderlas.</li>
+      <li><strong>Estadísticas de uso:</strong> contamos cuántas veces se abre la ficha de un local y cuántas veces se toca "Cómo llegar", "Llamar", "WhatsApp" o "Compartir". Solo guardamos el local, la acción y la fecha, <strong>no quién lo hizo</strong>. El dueño ve únicamente los totales de su local.</li>
+      <li><strong>Favoritos:</strong> los locales que marcas con ❤️ se guardan en tu cuenta, para avisarte cuando publiquen una oferta.</li>
+      <li><strong>Notificaciones:</strong> si las aceptas, guardamos un identificador de tu teléfono para enviarte avisos (ofertas de tus favoritos, reseñas de tu local). Puedes desactivarlas en Perfil → Notificaciones.</li>
+      <li><strong>Pedidos por WhatsApp:</strong> se envían directamente desde tu WhatsApp al local; no guardamos el contenido de tus pedidos.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Cómo usamos tu información</h2>
+    <ul>
+      <li>Mostrarte locales cercanos, sus productos, precios y horarios.</li>
+      <li>Permitirte crear y gestionar tu cuenta de cliente o propietario.</li>
+      <li>Revisar cada local nuevo antes de publicarlo, para evitar locales falsos.</li>
+      <li>Enviarte códigos por correo para confirmar tu cuenta o recuperar tu contraseña.</li>
+      <li>Mostrar a cada propietario las estadísticas de su propio local.</li>
+    </ul>
+    <p>No vendemos, alquilamos ni compartimos tu información personal con terceros con fines comerciales, y no mostramos publicidad.</p>
+  </section>
+
+  <section>
+    <h2>3. Servicios que usamos</h2>
+    <ul>
+      <li><strong>Supabase</strong> (supabase.com): guarda las cuentas, locales, reseñas y fotos en servidores seguros en la nube.</li>
+      <li><strong>Google Maps</strong>: muestra el mapa dentro de la app. Google puede recibir datos técnicos del mapa según su propia <a href="https://policies.google.com/privacy" rel="noopener">política de privacidad</a>.</li>
+      <li><strong>OpenStreetMap (Nominatim)</strong>: sugiere direcciones cuando un propietario escribe la dirección de su local.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Permisos de la aplicación</h2>
+    <ul>
+      <li><strong>Ubicación:</strong> para mostrarte los locales más cercanos. Si no la das, la app funciona igual usando Lima como referencia.</li>
+      <li><strong>Fotos:</strong> solo si eres propietario y eliges subir fotos de tu local. La app solo accede a la foto que tú eliges.</li>
+      <li><strong>Notificaciones:</strong> para avisarte de ofertas, reseñas o la aprobación de tu local. Puedes negarlo y la app funciona igual.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Eliminar tu cuenta y tus datos</h2>
+    <p>Puedes eliminar tu cuenta tú mismo, en cualquier momento, desde la app: <strong>Perfil → Privacidad → Eliminar mi cuenta</strong>. Se borran al instante tu cuenta y todos tus datos: reseñas, favoritos, registro de notificaciones y, si eres propietario, tus locales con sus fotos, productos y ofertas.</p>
+    <p>Si no puedes entrar a la app, escríbenos desde el correo de tu cuenta a <strong>wariquemarket@gmail.com</strong> y lo hacemos por ti en un máximo de 7 días.</p>
+    <p>También puedes pedirnos acceder a tus datos o corregirlos.</p>
+  </section>
+
+  <section>
+    <h2>6. Seguridad</h2>
+    <p>Toda la comunicación con nuestros servidores va cifrada (HTTPS). La base de datos tiene reglas de seguridad a nivel de fila: cada propietario solo puede modificar sus propios locales, y las fotos solo las puede subir el dueño del local.</p>
+  </section>
+
+  <section>
+    <h2>7. Menores de edad</h2>
+    <p>WariqueMarket no está dirigida a menores de 13 años y no recopilamos conscientemente sus datos.</p>
+  </section>
+
+  <section>
+    <h2>8. Cambios a esta política</h2>
+    <p>Si cambiamos esta política, actualizaremos la fecha de arriba y avisaremos en la app de los cambios importantes.</p>
+  </section>
+
+  <section>
+    <h2>9. Contacto</h2>
+    <p><strong>Correo:</strong> wariquemarket@gmail.com</p>
+    <p><strong>País:</strong> Perú</p>
+  </section>
+
+  <footer>
+    <p>© 2026 WariqueMarket.</p>
+  </footer>
+</div>
+
+</body>
+</html>
