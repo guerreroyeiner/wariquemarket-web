@@ -52,6 +52,7 @@
   .body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
   h1 { font-family: var(--display); font-size: 1.6rem; line-height: 1.2; text-wrap: balance; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip.closed { background: #fdecec; color: #b42318; }
   .chip { font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--accent-dim); color: var(--accent); }
   .row { display: flex; gap: 8px; font-size: 0.9rem; color: var(--muted); }
   .row b { color: var(--text); font-weight: 500; }
@@ -129,7 +130,7 @@
 
   if (!id) showState('Este link no es válido', 'Pide que te lo compartan de nuevo.');
   else Promise.all([
-    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,gallery,open_time,close_time,open_days,latitude,longitude,rating`),
+    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,gallery,open_time,close_time,open_days,latitude,longitude,rating,delivery,delivery_fee,delivery_min,closed_until`),
     api(`products?store_id=eq.${id}&select=*&order=name&limit=500`).catch(() => []),
   ]).then(([stores, products]) => {
     const s = stores[0];
@@ -147,6 +148,10 @@
     const chips = el('div', 'chips');
     if (s.category) chips.append(el('span', 'chip', s.category));
     if (Number(s.rating) > 0) chips.append(el('span', 'chip', '★ ' + Number(s.rating).toFixed(1)));
+    const money = (v) => 'S/ ' + Number(v).toFixed(2);
+    if (s.delivery === true) chips.append(el('span', 'chip', '🛵 Delivery' + (s.delivery_fee == null ? '' : Number(s.delivery_fee) === 0 ? ' gratis' : ' ' + money(s.delivery_fee)) + (s.delivery_min ? ' · mínimo ' + money(s.delivery_min) : '')));
+    if (s.delivery === false) chips.append(el('span', 'chip', '🏪 Solo recojo'));
+    if (s.closed_until && new Date(s.closed_until) > new Date()) chips.append(el('span', 'chip closed', 'Cerrado · vuelve el ' + new Date(s.closed_until).toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric' })));
     body.append(chips);
     [['📍', s.address], ['🕐', schedule(s)]].filter(([, v]) => v).forEach(([ic, v]) => {
       const r = el('div', 'row'); r.append(el('span', null, ic), el('b', null, v)); body.append(r);
