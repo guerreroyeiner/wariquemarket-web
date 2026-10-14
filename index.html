@@ -183,6 +183,26 @@
   .days { display: flex; justify-content: space-between; font: 10px var(--mono); color: var(--paper-soft); margin-top: 4px; }
   .free-tag { display: inline-block; margin-top: 24px; font: 700 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--brand); border-radius: 999px; padding: 8px 16px; }
 
+  /* Planes */
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 940px; margin: 44px auto 0; }
+  .plan { position: relative; border: 1px solid var(--line); background: var(--forest-2); border-radius: 26px; padding: 34px; display: flex; flex-direction: column; }
+  .plan.pro { background: var(--mint); color: var(--forest); border-color: var(--mint); }
+  .plan .ribbon { position: absolute; top: -14px; left: 30px; background: var(--awning); color: #fff; font: 700 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 6px 14px; }
+  .plan-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .plan-head small { font: 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .plan-head h3 { font: italic 44px/1 var(--serif); margin: 8px 0 0; }
+  .price { text-align: right; }
+  .price .now { font: 46px/1 var(--serif); }
+  .price .old { font: 22px/1 var(--serif); text-decoration: line-through; opacity: .55; margin-right: 6px; }
+  .price small { display: block; font: 11px var(--mono); opacity: .75; margin-top: 6px; }
+  .plan hr { border: 0; height: 1px; background: currentColor; opacity: .18; margin: 0 0 20px; }
+  .plan ul { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 11px; font-size: 15px; }
+  .plan li { display: flex; gap: 10px; align-items: flex-start; }
+  .plan li i { font-style: normal; font-weight: 800; flex-shrink: 0; }
+  .plan .btn { margin-top: auto; justify-content: center; }
+  .plan.pro .btn { background: var(--forest); color: var(--mint); }
+  .plans-note { text-align: center; font: 12px var(--mono); color: var(--ink-mute); margin-top: 26px; }
+
   /* Cómo funciona */
   .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
   .step { position: relative; overflow: hidden; background: var(--forest-2); border: 1px solid var(--line); border-radius: 20px; padding: 24px; }
@@ -218,6 +238,8 @@
     .feats .side { position: static; }
     .map { border-right: 0; border-bottom: 1px solid var(--line); }
     .stats, .steps { grid-template-columns: repeat(2, 1fr); }
+    .plans { grid-template-columns: minmax(0, 1fr); }
+    .price { text-align: left; }
     .hero { padding-block: 36px 24px; gap: 40px; }
     .phone { transform: none; }
     section { padding-block: 64px; }
@@ -242,6 +264,7 @@
     <nav>
       <a href="#explorar">El mapa</a>
       <a href="#duenos">Para dueños</a>
+      <a href="#planes">Planes</a>
       <a href="#como">Cómo funciona</a>
       <a class="btn btn-primary" href="#descargar">Descargar</a>
     </nav>
@@ -377,6 +400,50 @@
           <div class="days"><span>lun</span><span>mar</span><span>mié</span><span>jue</span><span>vie</span><span>sáb</span><span>dom</span></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="planes">
+    <div class="wrap">
+      <div style="text-align:center;max-width:680px;margin:0 auto">
+        <div class="eyebrow">Planes para negocios</div>
+        <h2 style="margin:14px 0 14px">Empieza <em>gratis</em>,<br>crece con Pro.</h2>
+        <p style="color:var(--ink-soft);margin:0">Sin contratos ni permanencia. Cambia de plan cuando quieras.</p>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <div class="plan-head">
+            <div><small>Para empezar</small><h3>Básico</h3></div>
+            <div class="price"><div class="now">S/ 0</div><small>/ mes · siempre</small></div>
+          </div>
+          <hr>
+          <ul>
+            <li><i style="color:var(--mint)">✓</i>Apareces en el mapa y en las búsquedas</li>
+            <li><i style="color:var(--mint)">✓</i>Perfil con horario, teléfono y Yape</li>
+            <li><i style="color:var(--mint)">✓</i>Fotos y productos con precio</li>
+            <li><i style="color:var(--mint)">✓</i>Ofertas del día</li>
+            <li><i style="color:var(--mint)">✓</i>Pedidos por WhatsApp</li>
+            <li><i style="color:var(--mint)">✓</i>Estadísticas y respuestas a reseñas</li>
+          </ul>
+          <a class="btn btn-ghost" href="#descargar">Registrarme gratis</a>
+        </div>
+        <div class="plan pro">
+          <span class="ribbon">🎉 Lanzamiento: 3 meses gratis</span>
+          <div class="plan-head">
+            <div><small>Para destacar</small><h3>Pro</h3></div>
+            <div class="price"><div><span class="old">S/ 29</span><span class="now">S/ 0</span></div><small>los 3 primeros meses · luego S/ 29 / mes</small></div>
+          </div>
+          <hr>
+          <ul>
+            <li><i>✦</i>Todo lo del plan Básico</li>
+            <li><i>✦</i>Apareces más arriba en búsquedas y en el mapa de tu zona</li>
+            <li><i>✦</i>Insignia PRO en tu local</li>
+            <li><i>✦</i>Tus ofertas salen primero en el Inicio de los clientes</li>
+          </ul>
+          <a class="btn" href="#descargar">Empezar Pro gratis</a>
+        </div>
+      </div>
+      <div class="plans-note">Eliges el plan al registrar tu local en la app. Cada local se revisa antes de publicarse (máx. 24 horas).</div>
     </div>
   </section>
 
