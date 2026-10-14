@@ -60,6 +60,8 @@
   .products { list-style: none; padding: 0; display: flex; flex-direction: column; }
   .products li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
   .products li:last-child { border-bottom: none; }
+  .out { color: var(--muted); }
+  .price.out { color: var(--muted); font-weight: 500; }
   .price { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .actions { display: flex; flex-direction: column; gap: 10px; }
   .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 14px; font-weight: 700; font-size: 1rem; text-decoration: none; }
@@ -122,7 +124,7 @@
   if (!id) showState('Este link no es válido', 'Pide que te lo compartan de nuevo.');
   else Promise.all([
     api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,open_time,close_time,open_days,latitude,longitude,rating`),
-    api(`products?store_id=eq.${id}&select=name,price&order=name&limit=8`).catch(() => []),
+    api(`products?store_id=eq.${id}&select=*&order=name&limit=8`).catch(() => []),
   ]).then(([stores, products]) => {
     const s = stores[0];
     if (!s) { showState('No encontramos este local', 'Puede que ya no esté publicado.'); return; }
@@ -144,11 +146,13 @@
       const r = el('div', 'row'); r.append(el('span', null, ic), el('b', null, v)); body.append(r);
     });
     if (s.description) body.append(el('p', 'desc', s.description));
+    products.sort((a, b) => (a.available === false) - (b.available === false));   // agotados al final
     if (products.length) {
       body.append(el('h2', null, 'Algunos productos'));
       const ul = el('ul', 'products');
       products.forEach(p => {
-        const li = el('li'); li.append(el('span', null, p.name), el('span', 'price', p.price != null ? 'S/ ' + Number(p.price).toFixed(2) : 'Consultar'));
+        const li = el('li'); const out = p.available === false;
+        li.append(el('span', out ? 'out' : null, p.name), el('span', out ? 'price out' : 'price', out ? 'Agotado' : p.price != null ? 'S/ ' + Number(p.price).toFixed(2) : 'Consultar'));
         ul.append(li);
       });
       body.append(ul);
