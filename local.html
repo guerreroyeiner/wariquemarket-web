@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local en WariqueMarket</title>
+<meta name="description" content="Mira sus productos, precios, horario y cómo llegar en WariqueMarket.">
+<meta property="og:title" content="Mira este local en WariqueMarket">
+<meta property="og:description" content="Productos, precios, horario y cómo llegar. Las bodegas y minimarkets de tu barrio en Lima.">
+<meta property="og:image" content="https://guerreroyeiner.github.io/wariquemarket-web/logo.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&display=swap">
+<style>
+  /* Layout: una tarjeta del local, centrada, pensada para abrirse desde WhatsApp en el celular */
+  :root {
+    --bg: #f7faf8;
+    --surface: #ffffff;
+    --text: #1a2e22;
+    --muted: #5a7366;
+    --accent: #16a869;
+    --accent-dim: #e8f5ee;
+    --border: #d4e8dc;
+    --on-accent: #ffffff;
+    --display: 'Playfair Display', Georgia, serif;
+    --body: 'Inter', system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111c15; --surface: #1a2e22; --text: #e8f5ee; --muted: #8fb8a0;
+      --accent: #22d47f; --accent-dim: #1a3525; --border: #2a4a35; --on-accent: #0b1a11;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111c15; --surface: #1a2e22; --text: #e8f5ee; --muted: #8fb8a0;
+    --accent: #22d47f; --accent-dim: #1a3525; --border: #2a4a35; --on-accent: #0b1a11;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+  [hidden] { display: none !important; }
+  body { font-family: var(--body); background: var(--bg); color: var(--text); line-height: 1.6; padding-inline: 16px; }
+  .page { max-width: 480px; margin: 0 auto; padding-block: 24px 40px; display: flex; flex-direction: column; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+  .brand img { width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid var(--border); object-fit: contain; }
+  .brand span { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+  .cover { aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 64px; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  h1 { font-family: var(--display); font-size: 1.6rem; line-height: 1.2; text-wrap: balance; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--accent-dim); color: var(--accent); }
+  .row { display: flex; gap: 8px; font-size: 0.9rem; color: var(--muted); }
+  .row b { color: var(--text); font-weight: 500; }
+  .desc { font-size: 0.9rem; }
+  h2 { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .products { list-style: none; padding: 0; display: flex; flex-direction: column; }
+  .products li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .products li:last-child { border-bottom: none; }
+  .price { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .actions { display: flex; flex-direction: column; gap: 10px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 14px; font-weight: 700; font-size: 1rem; text-decoration: none; }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-outline { border: 1.5px solid var(--border); color: var(--text); background: var(--surface); }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .note { font-size: 0.8rem; color: var(--muted); text-align: center; }
+  .state { text-align: center; padding: 40px 18px; color: var(--muted); }
+  .state strong { display: block; color: var(--text); font-size: 1.1rem; margin-bottom: 6px; }
+  footer { font-size: 0.8rem; color: var(--muted); text-align: center; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="brand" href="./"><img src="logo.png" alt=""><span>WariqueMarket</span></a>
+
+  <div class="card" id="card">
+    <div class="state" id="state"><strong>Cargando el local…</strong>Un momento.</div>
+  </div>
+
+  <div class="actions">
+    <a class="btn btn-primary" id="open-app" href="./">Abrir en la app</a>
+    <a class="btn btn-outline" id="maps" href="#" target="_blank" rel="noopener" hidden>📍 Cómo llegar</a>
+    <a class="btn btn-outline" href="./#descargar">⬇️ Descargar WariqueMarket</a>
+  </div>
+  <p class="note">Si no tienes la app, se abrirá la página para descargarla. Es gratis.</p>
+
+  <footer><a href="terminos.html">Términos</a> · <a href="privacidad.html">Privacidad</a></footer>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://duvmuiiwnkdrxgehvojx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_3x48rYpOiy_PXlvrkJuPxg_IXLAbfxm';   // clave pública (la misma de la app)
+  const DAYS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const HOME = 'https://guerreroyeiner.github.io/wariquemarket-web/';
+
+  const id = (new URLSearchParams(location.search).get('id') || '').match(/^[0-9a-f-]{36}$/i)?.[0];
+  const card = document.getElementById('card');
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const showState = (title, sub) => { card.innerHTML = ''; const s = el('div', 'state'); s.append(el('strong', null, title), sub); card.append(s); };
+  const fmtTime = (t) => { if (!t) return ''; let [h, m] = t.split(':').map(Number); const ap = h < 12 ? 'a. m.' : 'p. m.'; h = h % 12 || 12; return `${h}:${String(m).padStart(2,'0')} ${ap}`; };
+  const schedule = (s) => {
+    if (!s.open_time || !s.close_time) return '';
+    const d = (s.open_days || []).slice().sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7));
+    const days = d.length === 7 ? 'Todos los días' : d.map(x => DAYS[x]).join(', ');
+    return `${days} · ${fmtTime(s.open_time)} – ${fmtTime(s.close_time)}`;
+  };
+  const api = (path) => fetch(SUPABASE_URL + '/rest/v1/' + path, { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY } })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+
+  // Botón "Abrir en la app": en Android abre la app; si no está instalada, va a la página de descarga
+  const openBtn = document.getElementById('open-app');
+  if (id) {
+    openBtn.href = /Android/i.test(navigator.userAgent)
+      ? `intent://local/${id}#Intent;scheme=wariquemarket;package=com.wariquemarket.app;S.browser_fallback_url=${encodeURIComponent(HOME + '#descargar')};end`
+      : HOME + '#descargar';
+  }
+
+  if (!id) showState('Este link no es válido', 'Pide que te lo compartan de nuevo.');
+  else Promise.all([
+    api(`stores?id=eq.${id}&is_verified=eq.true&select=id,name,category,emoji,address,description,photo_url,open_time,close_time,open_days,latitude,longitude,rating`),
+    api(`products?store_id=eq.${id}&select=name,price&order=name&limit=8`).catch(() => []),
+  ]).then(([stores, products]) => {
+    const s = stores[0];
+    if (!s) { showState('No encontramos este local', 'Puede que ya no esté publicado.'); return; }
+    document.title = s.name + ' · WariqueMarket';
+    card.innerHTML = '';
+
+    const cover = el('div', 'cover');
+    if (s.photo_url && s.photo_url.startsWith(SUPABASE_URL + '/storage/')) {
+      const img = el('img'); img.src = s.photo_url; img.alt = 'Foto de ' + s.name; cover.append(img);
+    } else cover.textContent = s.emoji || '🏪';
+
+    const body = el('div', 'body');
+    body.append(el('h1', null, s.name));
+    const chips = el('div', 'chips');
+    if (s.category) chips.append(el('span', 'chip', s.category));
+    if (Number(s.rating) > 0) chips.append(el('span', 'chip', '★ ' + Number(s.rating).toFixed(1)));
+    body.append(chips);
+    [['📍', s.address], ['🕐', schedule(s)]].filter(([, v]) => v).forEach(([ic, v]) => {
+      const r = el('div', 'row'); r.append(el('span', null, ic), el('b', null, v)); body.append(r);
+    });
+    if (s.description) body.append(el('p', 'desc', s.description));
+    if (products.length) {
+      body.append(el('h2', null, 'Algunos productos'));
+      const ul = el('ul', 'products');
+      products.forEach(p => {
+        const li = el('li'); li.append(el('span', null, p.name), el('span', 'price', p.price != null ? 'S/ ' + Number(p.price).toFixed(2) : 'Consultar'));
+        ul.append(li);
+      });
+      body.append(ul);
+    }
+    card.append(cover, body);
+
+    const maps = document.getElementById('maps');
+    maps.href = s.latitude && s.longitude
+      ? `https://www.google.com/maps/search/?api=1&query=${s.latitude},${s.longitude}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.address || s.name)}`;
+    maps.hidden = false;
+  }).catch(() => showState('No se pudo cargar el local', 'Revisa tu conexión y vuelve a intentarlo.'));
+</script>
+</body>
+</html>
